@@ -22,9 +22,21 @@ function tableCellToHtml(cellNode: Element, childrenHtml: string): string {
     rowSpan = 1,
     isHeader = false,
     width = 'auto',
+    headPadding,
+    bodyPadding,
+    borderWidth,
   } = cellNode as TableCellElement
   const tag = isHeader ? 'th' : 'td'
-  return `<${tag} colSpan="${colSpan}" rowSpan="${rowSpan}" width="${width}">${childrenHtml}</${tag}>`
+  const styleArr: string[] = []
+  let padding = isHeader ? headPadding : bodyPadding
+  if (padding !== undefined) {
+    styleArr.push(`padding: ${padding}`)
+  }
+  if (borderWidth !== undefined) {
+    styleArr.push(`border-width: ${borderWidth}px`)
+  }
+  const styleStr = styleArr.length ? `style="${styleArr.join(';')}"` : ''
+  return `<${tag} colSpan="${colSpan}" rowSpan="${rowSpan}" width="${width}" ${styleStr}>${childrenHtml}</${tag}>`
 }
 
 export const tableToHtmlConf = {

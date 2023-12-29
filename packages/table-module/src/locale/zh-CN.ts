@@ -13,5 +13,11 @@ export default {
     insertRow: '插入行',
     insertTable: '插入表格',
     header: '表头',
+    setColumnWidth: '设置列宽度',
+    rowNumbersWidth: '第%d列宽度',
+    headerPadding: '表头内边距',
+    bodyPadding: '单元格内边距',
+    settingTable: '设置表格',
+    cellBorderWidth: '单元格边框宽度',
   },
 }

@@ -104,6 +104,8 @@ export async function updateImageNode(
     style: {
       ...curStyle,
       ...style,
+      // margin: `${style.marginTop || 0} ${style.marginRight || 0} ${style.marginBottom || 0} ${style.marginLeft || 0}`
+      margin: style.margin,
     },
   }
   Transforms.setNodes(editor, nodeProps, {

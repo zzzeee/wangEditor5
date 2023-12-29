@@ -6,7 +6,7 @@
 import { Editor, Transforms, Range, Path } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { ADD_ROW_SVG } from '../../constants/svg'
-import { TableRowElement, TableCellElement } from '../custom-types'
+import { TableRowElement, TableCellElement, TableElement } from '../custom-types'
 
 class InsertRow implements IButtonMenu {
   readonly title = t('tableModule.insertRow')
@@ -50,12 +50,18 @@ class InsertRow implements IButtonMenu {
     const cellsLength = rowNode?.children.length || 0
     if (cellsLength === 0) return
 
+    const tableNode = rowNode ? (DomEditor.getParentNode(editor, rowNode) as TableElement) : null
+    if (tableNode == null) return
+
     // 拼接新的 row
     const newRow: TableRowElement = { type: 'table-row', children: [] }
     for (let i = 0; i < cellsLength; i++) {
       const cell: TableCellElement = {
         type: 'table-cell',
         children: [{ text: '' }],
+        headPadding: tableNode.headCellPadding,
+        bodyPadding: tableNode.bodyCellPadding,
+        borderWidth: tableNode.cellBorderWidth,
       }
       newRow.children.push(cell)
     }

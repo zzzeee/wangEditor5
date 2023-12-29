@@ -44,6 +44,13 @@ export default {
     title: '标题',
     text: '正文',
   },
+  fileCache: {
+    title: '文件缓存',
+  },
+  margin: {
+    four: '四边边距',
+    fourPlaceholder: '上,右,下,左',
+  },
   image: {
     netImage: '网络图片',
     delete: '删除图片',
@@ -52,6 +59,8 @@ export default {
     src: '图片地址',
     desc: '图片描述',
     link: '图片链接',
+    size: '图片尺寸',
+    sizePlaceholder: '宽,高',
   },
   indent: {
     decrease: '减少缩进',

@@ -83,6 +83,8 @@ export function genDefaultToolbarKeys() {
     'redo',
     '|',
     'fullScreen',
+    // '|',
+    // 'fileCache',
   ]
 }
 

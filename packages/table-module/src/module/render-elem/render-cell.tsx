@@ -77,12 +77,27 @@ function renderTableCell(
   editor: IDomEditor
 ): VNode {
   const isFirstRow = isCellInFirstRow(editor, cellNode as TableCellElement)
-  const { colSpan = 1, rowSpan = 1, isHeader = false } = cellNode as TableCellElement
+  const {
+    colSpan = 1,
+    rowSpan = 1,
+    isHeader = false,
+    headPadding,
+    bodyPadding,
+    borderWidth,
+  } = cellNode as TableCellElement
+  const styles: any = {}
+  let padding = isHeader ? headPadding : bodyPadding
+  if (padding !== undefined) {
+    styles.padding = padding
+  }
+  if (borderWidth !== undefined) {
+    styles.borderWidth = `${isNaN(borderWidth) ? 1 : borderWidth}px`
+  }
 
   // ------------------ 不是第一行，直接渲染 <td> ------------------
   if (!isFirstRow) {
     return (
-      <td colSpan={colSpan} rowSpan={rowSpan}>
+      <td colSpan={colSpan} rowSpan={rowSpan} style={styles}>
         {children}
       </td>
     )
@@ -95,7 +110,7 @@ function renderTableCell(
     <Tag
       colSpan={colSpan}
       rowSpan={rowSpan}
-      style={{ borderRightWidth: '3px' }}
+      style={{ borderRightWidth: '3px', ...styles }}
       on={{
         mousemove: throttle(function (this: VNode, event: MouseEvent) {
           const elem = this.elm as HTMLElement

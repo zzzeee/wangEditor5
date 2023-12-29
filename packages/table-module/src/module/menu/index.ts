@@ -11,6 +11,8 @@ import InsertCol from './InsertCol'
 import DeleteCol from './DeleteCol'
 import TableHander from './TableHeader'
 import FullWidth from './FullWidth'
+import ColumnWidth from './ColumnWidth'
+import TableSetting from './TableSetting'
 
 export const insertTableMenuConf = {
   key: 'insertTable',
@@ -65,5 +67,19 @@ export const tableFullWidthMenuConf = {
   key: 'tableFullWidth',
   factory() {
     return new FullWidth()
+  },
+}
+
+export const tableColumnWidthMenuConf = {
+  key: 'tableColumnWidth',
+  factory() {
+    return new ColumnWidth()
+  },
+}
+
+export const tableSettingMenuConf = {
+  key: 'tableSetting',
+  factory() {
+    return new TableSetting()
   },
 }

@@ -36,6 +36,8 @@ class EditImage implements IModalMenu {
   private readonly altInputId = genDomID()
   private readonly hrefInputId = genDomID()
   private readonly buttonId = genDomID()
+  private readonly sizeInputId = genDomID()
+  private readonly marginInputId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
     // 编辑图片，用不到 getValue
@@ -73,7 +75,7 @@ class EditImage implements IModalMenu {
   }
 
   getModalContentElem(editor: IDomEditor): DOMElement {
-    const { srcInputId, altInputId, hrefInputId, buttonId } = this
+    const { srcInputId, altInputId, hrefInputId, buttonId, sizeInputId, marginInputId } = this
 
     const selectedImageNode = this.getImageNode(editor)
     if (selectedImageNode == null) {
@@ -87,6 +89,21 @@ class EditImage implements IModalMenu {
     const $inputAlt = $(inputAltElem)
     const [hrefContainerElem, inputHrefElem] = genModalInputElems(t('image.link'), hrefInputId)
     const $inputHref = $(inputHrefElem)
+
+    // 后加
+    const [sizeContainerElem, inputSizeElem] = genModalInputElems(
+      t('image.size'),
+      sizeInputId,
+      t('image.sizePlaceholder')
+    )
+    const $inputSize = $(inputSizeElem)
+    const [marginContainerElem, inputMarginElem] = genModalInputElems(
+      t('margin.four'),
+      marginInputId,
+      t('margin.fourPlaceholder')
+    )
+    const $inputMargin = $(inputMarginElem)
+
     const [buttonContainerElem] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
@@ -100,7 +117,20 @@ class EditImage implements IModalMenu {
         const src = $content.find(`#${srcInputId}`).val()
         const alt = $content.find(`#${altInputId}`).val()
         const href = $content.find(`#${hrefInputId}`).val()
-        this.updateImage(editor, src, alt, href)
+        const imgStyle: ImageStyle = {}
+        const sizeArr = $content.find(`#${sizeInputId}`).val().split(',')
+        if (sizeArr.length > 0 && sizeArr[0] != '') {
+          imgStyle.width = sizeArr[0]
+        } else {
+          imgStyle.width = ''
+        }
+        if (sizeArr.length > 1 && sizeArr[1] != '') {
+          imgStyle.height = sizeArr[1]
+        } else {
+          imgStyle.height = ''
+        }
+        imgStyle.margin = ($content.find(`#${marginInputId}`).val() || '').replace(',', ' ')
+        this.updateImage(editor, src, alt, href, imgStyle)
         editor.hidePanelOrModal() // 隐藏 modal
       })
 
@@ -115,13 +145,23 @@ class EditImage implements IModalMenu {
     $content.append(srcContainerElem)
     $content.append(altContainerElem)
     $content.append(hrefContainerElem)
+    $content.append(sizeContainerElem)
+    $content.append(marginContainerElem)
     $content.append(buttonContainerElem)
 
     // 设置 input val
-    const { src, alt = '', href = '' } = selectedImageNode as ImageElement
+    const { src, alt = '', href = '', style = {} } = selectedImageNode as ImageElement
     $inputSrc.val(src)
     $inputAlt.val(alt)
     $inputHref.val(href)
+    $inputSize.val(style.width || style.height ? `${style.width || ''},${style.height || ''}` : '')
+    // $inputMargin.val((
+    //   style.marginTop || style.marginRight || style.marginBottom || style.marginLeft) ?
+    //   `${style.marginTop || ''},${style.marginRight || ''},${style.marginBottom || ''},${style.marginLeft || ''}`
+    //   :
+    //   ''
+    // )
+    $inputMargin.val((style.margin || '').replace(/(^\s*)|(\s*$)/g, '').replace(' ', ','))
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {

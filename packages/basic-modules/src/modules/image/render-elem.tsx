@@ -13,6 +13,7 @@ import { ImageElement } from './custom-types'
 interface IImageSize {
   width?: string
   height?: string
+  margin?: string
 }
 
 function genContainerId(editor: IDomEditor, elemNode: SlateElement) {
@@ -29,11 +30,12 @@ function renderContainer(
   imageVnode: VNode,
   imageInfo: IImageSize
 ): VNode {
-  const { width, height } = imageInfo
+  const { width, height, margin } = imageInfo
 
   const style: any = {}
   if (width) style.width = width
   if (height) style.height = height
+  if (margin) style.margin = margin
 
   const containerId = genContainerId(editor, elemNode)
 
@@ -55,7 +57,7 @@ function renderResizeContainer(
 ) {
   const $body = $('body')
   const containerId = genContainerId(editor, elemNode)
-  const { width, height } = imageInfo
+  const { width, height, margin } = imageInfo
 
   let originalX = 0
   let originalWith = 0
@@ -137,6 +139,7 @@ function renderResizeContainer(
   const style: any = {}
   if (width) style.width = width
   if (height) style.height = height
+  if (margin) style.margin = margin
   // style.boxShadow = '0 0 0 1px #B4D5FF' // 自定义 selected 样式，因为有拖拽触手
 
   return (
@@ -174,7 +177,7 @@ function renderResizeContainer(
 
 function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
   const { src, alt = '', href = '', style = {} } = elemNode as ImageElement
-  const { width = '', height = '' } = style
+  const { width = '', height = '', margin = '' } = style
   const selected = DomEditor.isNodeSelected(editor, elemNode) // 图片是否选中
 
   const imageStyle: any = {}
@@ -188,11 +191,11 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
 
   if (selected && !isDisabled) {
     // 选中，未禁用 - 渲染 resize container
-    return renderResizeContainer(editor, elemNode, vnode, { width, height })
+    return renderResizeContainer(editor, elemNode, vnode, { width, height, margin })
   }
 
   // 其他，渲染普通 image container
-  return renderContainer(editor, elemNode, vnode, { width, height })
+  return renderContainer(editor, elemNode, vnode, { width, height, margin })
 }
 
 const renderImageConf = {

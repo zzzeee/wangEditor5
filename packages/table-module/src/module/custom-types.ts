@@ -14,6 +14,9 @@ export type TableCellElement = {
   rowSpan?: number
   width?: string // 只作用于第一行（尚未考虑单元格合并！）
   children: Text[]
+  headPadding?: string
+  bodyPadding?: string
+  borderWidth?: number
 }
 
 export type TableRowElement = {
@@ -25,4 +28,7 @@ export type TableElement = {
   type: 'table'
   width: string
   children: TableRowElement[]
+  headCellPadding?: string
+  bodyCellPadding?: string
+  cellBorderWidth?: number
 }

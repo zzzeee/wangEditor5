@@ -67,7 +67,13 @@ class InsertCol implements IButtonMenu {
         ) {
           // 如果当前 td 的 path 和选中 td 的 path ，最后一位相同，说明是同一列
           // 则在其后插入一个 cell
-          const newCell: TableCellElement = { type: 'table-cell', children: [{ text: '' }] }
+          const newCell: TableCellElement = {
+            type: 'table-cell',
+            children: [{ text: '' }],
+            headPadding: tableNode.headCellPadding,
+            bodyPadding: tableNode.bodyCellPadding,
+            borderWidth: tableNode.cellBorderWidth,
+          }
           if (rowIndex === 0 && isTableWithHeader(tableNode)) {
             newCell.isHeader = true
           }

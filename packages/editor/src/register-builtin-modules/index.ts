@@ -26,6 +26,9 @@ import wangEditorUploadImageModule from '@wangeditor/upload-image-module'
 import '@wangeditor/code-highlight/dist/css/style.css'
 import { wangEditorCodeHighlightModule } from '@wangeditor/code-highlight'
 
+// file-cache-module
+// import wangEditorFileCacheModule from '@wangeditor/file-cache-module'
+
 import registerModule from './register'
 
 basicModules.forEach(module => registerModule(module))
@@ -34,3 +37,4 @@ registerModule(wangEditorTableModule)
 registerModule(wangEditorVideoModule)
 registerModule(wangEditorUploadImageModule)
 registerModule(wangEditorCodeHighlightModule)
+// registerModule(wangEditorFileCacheModule)

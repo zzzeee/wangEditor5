@@ -44,6 +44,13 @@ export default {
     title: 'Header',
     text: 'Text',
   },
+  fileCache: {
+    title: 'File cache',
+  },
+  margin: {
+    four: 'Four margin',
+    fourPlaceholder: 'top,right,bottom,left',
+  },
   image: {
     netImage: 'Net image',
     delete: 'Delete image',
@@ -52,6 +59,8 @@ export default {
     src: 'Image src',
     desc: 'Description',
     link: 'Image link',
+    size: 'Image size',
+    sizePlaceholder: 'width,height',
   },
   indent: {
     decrease: 'Decrease',
