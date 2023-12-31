@@ -28,14 +28,20 @@ function parseCellHtml(
 
   const colSpan = parseInt($elem.attr('colSpan') || '1')
   const rowSpan = parseInt($elem.attr('rowSpan') || '1')
+  const isHeader = getTagName($elem) === 'th'
   const width = $elem.attr('width') || 'auto'
+  const borderWidthStr = getStyleValue($elem, 'border-width')
+  const padding = getStyleValue($elem, 'padding')
 
   return {
     type: 'table-cell',
-    isHeader: getTagName($elem) === 'th',
+    isHeader,
     colSpan,
     rowSpan,
     width,
+    headPadding: padding,
+    bodyPadding: padding,
+    borderWidth: borderWidthStr === '' ? 1 : parseInt(borderWidthStr) || 0,
     // @ts-ignore
     children,
   }
@@ -74,10 +80,19 @@ function parseTableHtml(
   let width = 'auto'
   if (getStyleValue($elem, 'width') === '100%') width = '100%'
   if ($elem.attr('width') === '100%') width = '100%' // 兼容 v4 格式
+  let cellBorderWidth: number | undefined = undefined
+  if ($elem.attr('data-cellBorderWidth') !== '') {
+    cellBorderWidth = isNaN(parseInt($elem.attr('data-cellBorderWidth')))
+      ? 1
+      : parseInt($elem.attr('data-cellBorderWidth'))
+  }
 
   return {
     type: 'table',
     width,
+    headCellPadding: $elem.attr('data-headCellPadding') || undefined,
+    bodyCellPadding: $elem.attr('data-bodyCellPadding') || undefined,
+    cellBorderWidth: cellBorderWidth,
     // @ts-ignore
     children: children.filter(child => DomEditor.getNodeType(child) === 'table-row'),
   }

@@ -7,9 +7,23 @@ import { Element } from 'slate'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
 
 function tableToHtml(elemNode: Element, childrenHtml: string): string {
-  const { width = 'auto' } = elemNode as TableElement
+  const {
+    width = 'auto',
+    headCellPadding = '',
+    bodyCellPadding = '',
+    cellBorderWidth = 1,
+  } = elemNode as TableElement
 
-  return `<table style="width: ${width};"><tbody>${childrenHtml}</tbody></table>`
+  return (
+    '<table ' +
+    `style="width: ${width};" ` +
+    `data-headCellPadding="${headCellPadding}" ` +
+    `data-bodyCellPadding="${bodyCellPadding}" ` +
+    `data-cellBorderWidth="${cellBorderWidth}" ` +
+    '>' +
+    `<tbody>${childrenHtml}</tbody>` +
+    '</table>'
+  )
 }
 
 function tableRowToHtml(elem: Element, childrenHtml: string): string {

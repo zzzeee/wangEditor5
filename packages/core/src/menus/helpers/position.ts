@@ -232,6 +232,10 @@ export function correctPosition(editor: IDomEditor, $positionElem: Dom7Array) {
     const positionElemHeight = $positionElem.height()
     const relativeTop = positionElemTop - containerTop
     const relativeLeft = positionElemLeft - containerLeft
+    // console.log(containerWidth, containerHeight);
+    if (containerHeight > 0) {
+      $positionElem.css('max-height', `${containerHeight}px`)
+    }
 
     // 获取 modal bar 设置的 style
     const styleStr = $positionElem.attr('style')

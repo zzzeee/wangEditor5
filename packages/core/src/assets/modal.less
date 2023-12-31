@@ -1,6 +1,7 @@
 @import "../../../vars.less"; // var and mixin
 
 .w-e-modal {
+  overflow: auto;
   z-index: 1;
   background-color: @toolbar-bg-color;
   position: absolute;
@@ -45,7 +46,7 @@
     font-weight: 400;
     white-space: nowrap;
     cursor: pointer;
-    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    transition: all .3s cubic-bezier(.645, .045, .355, 1);
     user-select: none;
     touch-action: manipulation;
     height: 32px;
